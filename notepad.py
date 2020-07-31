@@ -44,7 +44,7 @@ class Notepad:
             pass
 
         #set the window text
-        self.__root.title("New file- Notepad : version 1.3 Preview Béta")
+        self.__root.title("New file- Notepad : version 1.4 Preview Béta")
 
         #center the window
         screenWidth = self.__root.winfo_screenwidth()
@@ -79,7 +79,7 @@ class Notepad:
         self.__thisMenuBar.add_cascade(label="Help",menu=self.__thisHelpMenu)
 
         self.__thisdeveloper.add_command(label="New",command=self.__newFile)
-        self.__thisdeveloper.add_command(label="Open",command=self.__openFile)
+        self.__thisdeveloper.add_command(label="Open",command=self.__openfiledev)
         self.__thisdeveloper.add_command(label="Save",command=self.__saveFile)
         self.__thisdeveloper.add_command(label="information on this feature",command=self.__showAbout2)
         self.__thisMenuBar.add_cascade(label="developer",menu=self.__thisdeveloper)
@@ -96,14 +96,14 @@ class Notepad:
         #exit()
 
     def __showAbout(self):
-        showinfo("Notepad","Created by: Sloopy : Version 1.3 Preview Béta : comming son web site")
+        showinfo("Notepad","Created by: Sloopy : Version 1.4 Preview Béta : this is a beta version please send us a comment or if you have encountered any problem on this email: phenixdeveloppement85@gmail.com")
 
     def __showAbout2(self):
         showinfo("developer functionality","the developer functionality allows the developer to continue working with their coding project while using our notepad. you can open your source code created new and even save the rework of your code or project in the notepad.")   
 
     def __openFile(self):
         
-        self.__file = askopenfilename(defaultextension=".txt",filetypes=[("All Files","*.*"),("Text Documents","*.txt")])
+        self.__file = askopenfilename(defaultextension=".txt",filetypes=[("Text Documents","*.txt*"),("Text Documents","*.txt")])
 
         if self.__file == "":
             #no file to open
@@ -121,7 +121,24 @@ class Notepad:
 
             file.close()
 
+    def __openfiledev(self):
+
+        self.__file =  askopenfilename(defaultextension=".py",filetypes=[("Files Coding","*.py*"),("Files Coding","*.py")])
         
+        if self.__file == "":
+            #no file to open
+            self.__file = None
+        else:
+
+            #try to open the file
+            #set the window title
+            self.__root.title(os.path.basename(self.__file) + " - Notepad")
+            self.__thisTextArea.delete(1.0,END)
+
+            file = open(self.__file,"r")
+
+            self.__thisTextArea.insert(1.0,file.read())
+
     def __newFile(self):
         self.__root.title("Untitled - Notepad")
         self.__file = None
@@ -131,10 +148,11 @@ class Notepad:
 
         if self.__file == None:
             #save as new file
-            self.__file = asksaveasfilename(initialfile='Untitled.txt',defaultextension=".txt",filetypes=[("All Files","*.*"),("Text Documents","*.txt")])
+            self.__file = asksaveasfilename(initialfile='Untitled.txt',defaultextension=".txt",filetypes=[("Text Documents","*.txt*"),("Text Documents","*.txt")])
 
             if self.__file == "":
                 self.__file = None
+
             else:
                 #try to save the file
                 file = open(self.__file,"w")
